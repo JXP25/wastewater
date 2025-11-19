@@ -1,0 +1,110 @@
+.latest-prediction {
+  grid-column: span 2;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.metric-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border-left: 4px solid;
+  transition: transform 0.2s;
+}
+
+.metric-card:hover {
+  transform: scale(1.02);
+}
+
+.metric-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.metric-icon {
+  font-size: 2rem;
+}
+
+.metric-info h3 {
+  font-size: 1.25rem;
+  color: #333;
+  margin: 0;
+}
+
+.metric-full-name {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0.25rem 0 0 0;
+}
+
+.metric-value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.metric-value .value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1e3c72;
+}
+
+.metric-value .unit {
+  font-size: 1rem;
+  color: #666;
+}
+
+.quality-indicator {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.inference-info {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+  border-top: 2px solid #f0f0f0;
+}
+
+.inference-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #e3f2fd;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.no-data {
+  text-align: center;
+  padding: 3rem;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .latest-prediction {
+    grid-column: span 1;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}

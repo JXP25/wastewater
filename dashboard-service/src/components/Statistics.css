@@ -1,0 +1,91 @@
+.statistics {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid;
+  transition: background 0.2s;
+}
+
+.stat-item:hover {
+  background: #e9ecef;
+}
+
+.stat-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.stat-unit {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: normal;
+}
+
+.improvement-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  color: white;
+  margin-top: auto;
+}
+
+.improvement-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.improvement-icon {
+  font-size: 3rem;
+}
+
+.improvement-title {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-bottom: 0.25rem;
+}
+
+.improvement-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.improvement-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}

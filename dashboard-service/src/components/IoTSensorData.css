@@ -1,0 +1,237 @@
+.iot-sensors {
+  grid-column: 1 / -1;
+}
+
+.plant-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.plant-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.status-indicator.online {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-indicator.offline {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.status-indicator.online .status-dot {
+  background: #4caf50;
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+}
+
+.status-indicator.offline .status-dot {
+  background: #f44336;
+  box-shadow: 0 0 8px rgba(244, 67, 54, 0.6);
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.sensor-group {
+  margin-bottom: 2rem;
+}
+
+.sensor-group:last-of-type {
+  margin-bottom: 1rem;
+}
+
+.group-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.group-icon {
+  font-size: 1.5rem;
+}
+
+.sensors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.sensor-item {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sensor-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sensor-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.sensor-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.sensor-info {
+  flex: 1;
+}
+
+.sensor-name {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.sensor-value {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.sensor-unit {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: normal;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.5s ease;
+  border-radius: 4px;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.metadata-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #e0e0e0;
+}
+
+.metadata-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.metadata-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.metadata-label {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.metadata-value {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.quality-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.quality-badge.good {
+  background: #4caf50;
+  color: white;
+}
+
+.quality-badge.fair {
+  background: #ff9800;
+  color: white;
+}
+
+.quality-badge.poor {
+  background: #f44336;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .sensors-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .metadata-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .plant-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

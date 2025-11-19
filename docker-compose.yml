@@ -155,6 +155,22 @@ services:
       - wastewater-network
     restart: unless-stopped
 
+  # Dashboard Service - React Web UI
+  dashboard:
+    build:
+      context: ./dashboard-service
+      dockerfile: Dockerfile
+      args:
+        - REACT_APP_API_URL=http://localhost:5000
+    container_name: wastewater-dashboard
+    depends_on:
+      - api-service
+    ports:
+      - "3000:3000"
+    networks:
+      - wastewater-network
+    restart: unless-stopped
+
 networks:
   wastewater-network:
     driver: bridge

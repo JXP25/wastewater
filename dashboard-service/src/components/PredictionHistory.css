@@ -1,0 +1,108 @@
+.prediction-history {
+  grid-column: 1 / -1;
+  margin-bottom: 2rem;
+}
+
+.history-info {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+}
+
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.chart-wrapper {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.chart-title {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.custom-tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tooltip-time {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.custom-tooltip p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.recent-predictions {
+  margin-top: 2rem;
+}
+
+.recent-predictions h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.predictions-table-wrapper {
+  overflow-x: auto;
+}
+
+.predictions-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.predictions-table th,
+.predictions-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.predictions-table th {
+  background: #f5f5f5;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.predictions-table tbody tr:hover {
+  background: #f9f9f9;
+}
+
+.predictions-table td {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .charts-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .predictions-table {
+    font-size: 0.85rem;
+  }
+  
+  .predictions-table th,
+  .predictions-table td {
+    padding: 0.5rem;
+  }
+}
