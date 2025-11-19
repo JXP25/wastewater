@@ -1,6 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './PredictionHistory.css';
+import { formatChartTime, formatToIST } from '../utils';
 
 const PredictionHistory = ({ data }) => {
   if (!data || data.length === 0) {
@@ -17,7 +18,7 @@ const PredictionHistory = ({ data }) => {
   // Format data for chart (reverse to show oldest to newest)
   const chartData = [...data].reverse().map((item, index) => ({
     index: index + 1,
-    time: new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    time: formatChartTime(item.timestamp),
     TSS: parseFloat(item.tss_mg_l.toFixed(2)),
     COD: parseFloat(item.cod_mg_l.toFixed(2)),
     BOD: parseFloat(item.bod_mg_l.toFixed(2)),
@@ -144,7 +145,7 @@ const PredictionHistory = ({ data }) => {
             <tbody>
               {data.slice(0, 10).map((item, index) => (
                 <tr key={index}>
-                  <td>{new Date(item.timestamp).toLocaleTimeString()}</td>
+                  <td>{formatToIST(item.timestamp)} IST</td>
                   <td>{item.tss_mg_l.toFixed(2)}</td>
                   <td>{item.cod_mg_l.toFixed(2)}</td>
                   <td>{item.bod_mg_l.toFixed(2)}</td>

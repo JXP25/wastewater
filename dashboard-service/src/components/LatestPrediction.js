@@ -1,5 +1,6 @@
 import React from 'react';
 import './LatestPrediction.css';
+import { formatToIST } from '../utils';
 
 const LatestPrediction = ({ data }) => {
   if (!data || !data.predictions) {
@@ -54,7 +55,7 @@ const LatestPrediction = ({ data }) => {
       <div className="card-header">
         <h2>📊 Latest Prediction</h2>
         <span className="timestamp">
-          {new Date(timestamp).toLocaleTimeString()}
+          {formatToIST(timestamp)} IST
         </span>
       </div>
 

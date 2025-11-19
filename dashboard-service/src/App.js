@@ -5,6 +5,7 @@ import Statistics from './components/Statistics';
 import PredictionHistory from './components/PredictionHistory';
 import SystemStatus from './components/SystemStatus';
 import IoTSensorData from './components/IoTSensorData';
+import { getCurrentIST } from './utils';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 const KAFKA_API_URL = 'http://localhost:5000'; // For now, we'll use polling approach
@@ -148,7 +149,7 @@ function App() {
         <p>
           System Status: <span className="status-badge">{systemHealth?.status || 'Unknown'}</span>
         </p>
-        <p>Last Updated: {new Date().toLocaleTimeString()}</p>
+        <p>Last Updated: {getCurrentIST()} IST</p>
       </footer>
     </div>
   );
