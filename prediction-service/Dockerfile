@@ -9,14 +9,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
-COPY requirements-prediction.txt .
+COPY requirements.txt .
 
 # Install Python packages
-RUN pip install --no-cache-dir -r requirements-prediction.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY prediction_service.py .
-COPY lstm/ ./lstm/
 
 # Disable Python output buffering for real-time logs
 ENV PYTHONUNBUFFERED=1

@@ -8,10 +8,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
-COPY requirements-api.txt .
+COPY requirements.txt .
 
 # Install Python packages
-RUN pip install --no-cache-dir -r requirements-api.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code
 COPY api_service.py .

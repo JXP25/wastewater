@@ -82,7 +82,9 @@ services:
 
   # IoT Device Simulator
   iot-simulator:
-    build: .
+    build:
+      context: ./iot-simulator
+      dockerfile: Dockerfile
     container_name: wastewater-iot-simulator
     depends_on:
       kafka:
@@ -107,8 +109,8 @@ services:
   # ML Prediction Service - LSTM Model Inference
   prediction-service:
     build:
-      context: .
-      dockerfile: Dockerfile.prediction
+      context: ./prediction-service
+      dockerfile: Dockerfile
     container_name: wastewater-prediction-service
     depends_on:
       kafka:
@@ -126,6 +128,8 @@ services:
       DB_PASSWORD: postgres
       MODEL_PATH: /app/lstm/model/best_model.keras
       SCALER_PATH: /app/lstm/model/scalers.npz
+    volumes:
+      - ./lstm:/app/lstm:ro
     networks:
       - wastewater-network
     restart: unless-stopped
@@ -133,8 +137,8 @@ services:
   # API Service - Low-latency REST API
   api-service:
     build:
-      context: .
-      dockerfile: Dockerfile.api
+      context: ./api-service
+      dockerfile: Dockerfile
     container_name: wastewater-api-service
     depends_on:
       postgres:
