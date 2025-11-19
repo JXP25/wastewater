@@ -1,7 +1,5 @@
 # Wastewater Treatment Plant ML Prediction System# Wastewater Treatment Plant - Real-Time Prediction System
 
-
-
 Real-time water quality prediction system that replaces 48-hour lab tests with sub-second ML predictions (99.99% faster).## Goal
 
 Replace the 48-hour lab test with sub-second algorithmic predictions using real-time sensor data and machine learning.
@@ -12,7 +10,7 @@ Replace the 48-hour lab test with sub-second algorithmic predictions using real-
 
 This system uses IoT sensors, Apache Kafka streaming, and LSTM neural networks to provide real-time predictions of wastewater effluent quality parameters. The architecture enables treatment plant operators to make immediate process adjustments instead of waiting 2 days for lab results.
 
-```
+````
 
 ### Key MetricsIoT Devices (PLCs) → Kafka Streaming → ML Prediction Service → API/Database → WTP Control System
 
@@ -82,15 +80,15 @@ This system uses IoT sensors, Apache Kafka streaming, and LSTM neural networks t
 
 - 8GB RAM (for all services)### 🚀 Quick Start - ONE COMMAND!
 
-- Ports available: 5000, 8080, 5432, 9092
+- Ports available: 8000, 8080, 5432, 9092
 
 ```bash
 
 ### Deploy System./setup_kafka.sh
 
-```
+````
 
-```bash
+````bash
 
 # Start all services (Kafka, PostgreSQL, IoT simulator, ML service, API)**That's it!** This single command will:
 
@@ -106,7 +104,7 @@ docker compose ps
 
 # Check API health
 
-curl http://localhost:5000/health#### View Kafka UI (Recommended)
+curl http://localhost:8000/health#### View Kafka UI (Recommended)
 
 ```Open http://localhost:8080 in your browser to see:
 
@@ -114,7 +112,7 @@ curl http://localhost:5000/health#### View Kafka UI (Recommended)
 
 ### Access Services- Consumer groups
 
-- **REST API**: http://localhost:5000- Broker health
+- **REST API**: http://localhost:8000- Broker health
 
 - **Kafka UI**: http://localhost:8080
 
@@ -130,21 +128,21 @@ curl http://localhost:5000/health#### View Kafka UI (Recommended)
 
 # Get latest prediction```
 
-curl http://localhost:5000/api/v1/predictions/latest
+curl http://localhost:8000/api/v1/predictions/latest
 
 #### Consume Messages with Python
 
 # Get last 100 predictions```bash
 
-curl http://localhost:5000/api/v1/predictions/history?limit=100./consume_kafka.sh
+curl http://localhost:8000/api/v1/predictions/history?limit=100./consume_kafka.sh
 
-```
+````
 
 # Get daily statistics
 
-curl http://localhost:5000/api/v1/statistics?hours=24### Manual Installation
+curl http://localhost:8000/api/v1/statistics?hours=24### Manual Installation
 
-```
+````
 
 If you want to run without Kafka:
 
@@ -192,7 +190,7 @@ Generates realistic WTP sensor data with daily load patterns and streams to Kafk
 
 - 1 message/second with realistic noise and correlations./run_with_kafka.sh --interval 0.5 --anomaly
 
-```
+````
 
 ### 2. [Prediction Service](./prediction-service/README.md)
 
@@ -226,7 +224,7 @@ Low-latency REST API for accessing predictions.- `--plant-id`: Plant identifier 
 
 - `--anomaly`: Enable anomaly generation
 
-```
+```````
 
 wastewater/### Docker Services
 
@@ -370,7 +368,7 @@ All services configured via docker-compose.yml:5. ⏳ **Real-time Prediction Ser
 
 **API Configuration:**    "turbidity_ntu": 52.34,
 
-- Port: 5000    "flow_rate_m3h": 485.67,
+- Port: 8000    "flow_rate_m3h": 485.67,
 
 - Workers: 2    "ph": 7.18,
 
@@ -405,7 +403,7 @@ python train_lstm_model.py \
 
 # Model saved to: model/best_model.keras
 # Scalers saved to: model/scalers.npz
-```
+```````
 
 ### Monitoring System
 
@@ -440,16 +438,19 @@ docker compose down -v
 ## 📈 Use Cases
 
 1. **Real-Time Process Control**
+
    - Immediate feedback for aeration adjustments
    - Optimize chemical dosing based on predictions
    - Prevent effluent violations before they occur
 
 2. **Operational Efficiency**
+
    - Reduce lab testing costs
    - Enable 24/7 monitoring without staff
    - Faster response to influent changes
 
 3. **Compliance & Reporting**
+
    - Continuous effluent quality tracking
    - Historical trend analysis via API
    - Automated alerting for predicted violations
@@ -462,24 +463,27 @@ docker compose down -v
 ## 🤝 Integration
 
 ### SCADA/PLC Integration
+
 ```python
 import requests
 import time
 
 # Poll API every 5 seconds
 while True:
-    response = requests.get('http://localhost:5000/api/v1/predictions/latest')
+    response = requests.get('http://localhost:8000/api/v1/predictions/latest')
     prediction = response.json()['predictions']
-    
+
     # Send to PLC via Modbus/OPC UA
     write_to_plc('tss_predicted', prediction['tss_mg_l'])
     write_to_plc('cod_predicted', prediction['cod_mg_l'])
-    
+
     time.sleep(5)
 ```
 
 ### Dashboard Integration
+
 The API provides CORS-enabled endpoints suitable for:
+
 - Grafana dashboards
 - Custom React/Vue/Angular apps
 - Power BI reports

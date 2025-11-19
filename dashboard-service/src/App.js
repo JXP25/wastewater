@@ -7,8 +7,8 @@ import SystemStatus from './components/SystemStatus';
 import IoTSensorData from './components/IoTSensorData';
 import { getCurrentIST } from './utils';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-const KAFKA_API_URL = 'http://localhost:5000'; // For now, we'll use polling approach
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const KAFKA_API_URL = 'http://localhost:8000'; // For now, we'll use polling approach
 
 function App() {
   const [latestPrediction, setLatestPrediction] = useState(null);
@@ -22,21 +22,27 @@ function App() {
   const fetchData = async () => {
     try {
       // Fetch latest prediction
-      const predResponse = await fetch(`${API_BASE_URL}/api/v1/predictions/latest`);
+      const predResponse = await fetch(
+        `${API_BASE_URL}/api/v1/predictions/latest`
+      );
       if (predResponse.ok) {
         const predData = await predResponse.json();
         setLatestPrediction(predData);
       }
 
       // Fetch statistics
-      const statsResponse = await fetch(`${API_BASE_URL}/api/v1/statistics?hours=24`);
+      const statsResponse = await fetch(
+        `${API_BASE_URL}/api/v1/statistics?hours=24`
+      );
       if (statsResponse.ok) {
         const statsData = await statsResponse.json();
         setStatistics(statsData);
       }
 
       // Fetch history
-      const historyResponse = await fetch(`${API_BASE_URL}/api/v1/predictions/history?limit=50`);
+      const historyResponse = await fetch(
+        `${API_BASE_URL}/api/v1/predictions/history?limit=50`
+      );
       let hasData = false;
       if (historyResponse.ok) {
         const historyData = await historyResponse.json();
@@ -65,13 +71,13 @@ function App() {
             ph: 7.0 + Math.random() * 0.5,
             temperature_c: 18 + Math.random() * 4,
             dissolved_oxygen_mgl: 7 + Math.random() * 2,
-            conductivity_uscm: 800 + Math.random() * 100
+            conductivity_uscm: 800 + Math.random() * 100,
           },
           control_actions: {
             aeration_vfd_speed_pct: 70 + Math.random() * 10,
             polymer_dosing_rate_lh: 15 + Math.random() * 8,
             ras_pump_speed_pct: 65 + Math.random() * 10,
-            was_pump_rate_m3h: 25 + Math.random() * 10
+            was_pump_rate_m3h: 25 + Math.random() * 10,
           },
           metadata: {
             device_status: 'online',
@@ -79,8 +85,8 @@ function App() {
             hrt_hours: 6.0,
             tank_volume_m3: 4675.0,
             process_stage: 'activated_sludge',
-            ml_ready: true
-          }
+            ml_ready: true,
+          },
         });
       }
 
@@ -98,7 +104,7 @@ function App() {
     fetchData();
 
     // Refresh every 5 seconds
-    const interval = setInterval(fetchData, 5000);
+    const interval = setInterval(fetchData, 8000);
 
     return () => clearInterval(interval);
   }, []);
@@ -141,13 +147,14 @@ function App() {
         <PredictionHistory data={history} />
         <div></div>
         <IoTSensorData data={iotSensorData} />
-
-        
       </main>
 
       <footer className="App-footer">
         <p>
-          System Status: <span className="status-badge">{systemHealth?.status || 'Unknown'}</span>
+          System Status:{' '}
+          <span className="status-badge">
+            {systemHealth?.status || 'Unknown'}
+          </span>
         </p>
         <p>Last Updated: {getCurrentIST()} IST</p>
       </footer>

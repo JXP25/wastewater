@@ -9,24 +9,28 @@ Provides a user-friendly visual interface to monitor the entire ML prediction pi
 ## Features
 
 ### 📊 Latest Predictions
+
 - Real-time display of TSS, COD, and BOD predictions
 - Color-coded quality indicators (Excellent/Good/Warning/High)
 - Inference time tracking
 - Last prediction timestamp
 
 ### 📈 24-Hour Statistics
+
 - Total predictions count
 - Average inference time
 - Average water quality parameters
 - Speed improvement comparison (vs 48-hour lab tests)
 
 ### 📉 Prediction History
+
 - Interactive line charts for all parameters
 - Model performance tracking (inference time)
 - Recent predictions table (last 10)
 - Auto-refreshing every 5 seconds
 
 ### 🟢 System Status
+
 - Real-time health monitoring
 - Connection status to API service
 - Error notifications
@@ -42,10 +46,13 @@ Provides a user-friendly visual interface to monitor the entire ML prediction pi
 ## Configuration
 
 ### Environment Variables
+
 Set in docker-compose.yml:
-- `REACT_APP_API_URL` - API service URL (default: http://localhost:5000)
+
+- `REACT_APP_API_URL` - API service URL (default: http://localhost:8000)
 
 ### API Endpoints Used
+
 - `GET /health` - System health check
 - `GET /api/v1/predictions/latest` - Latest prediction
 - `GET /api/v1/predictions/history?limit=50` - Historical data
@@ -54,6 +61,7 @@ Set in docker-compose.yml:
 ## Development
 
 ### Run Locally
+
 ```bash
 # Install dependencies
 npm install
@@ -65,6 +73,7 @@ npm start
 ```
 
 ### Build for Production
+
 ```bash
 npm run build
 ```
@@ -79,7 +88,7 @@ docker build -t wastewater-dashboard .
 
 # Run container
 docker run -p 3000:3000 \
-  -e REACT_APP_API_URL=http://localhost:5000 \
+  -e REACT_APP_API_URL=http://localhost:8000 \
   wastewater-dashboard
 ```
 
@@ -90,21 +99,25 @@ Dashboard automatically refreshes data every 5 seconds to provide near-real-time
 ## User Interface
 
 ### Color Coding
+
 Water quality parameters use color-coded indicators:
 
 **TSS (Total Suspended Solids)**
+
 - 🟢 Excellent: < 10 mg/L
 - 🟢 Good: 10-15 mg/L
 - 🟠 Warning: 15-20 mg/L
 - 🔴 High: > 20 mg/L
 
 **COD (Chemical Oxygen Demand)**
+
 - 🟢 Excellent: < 40 mg/L
 - 🟢 Good: 40-50 mg/L
 - 🟠 Warning: 50-60 mg/L
 - 🔴 High: > 60 mg/L
 
 **BOD (Biochemical Oxygen Demand)**
+
 - 🟢 Excellent: < 3 mg/L
 - 🟢 Good: 3-5 mg/L
 - 🟠 Warning: 5-8 mg/L
@@ -113,6 +126,7 @@ Water quality parameters use color-coded indicators:
 ## Responsive Design
 
 Dashboard is fully responsive and works on:
+
 - Desktop computers (optimal experience)
 - Tablets
 - Mobile phones
@@ -127,13 +141,17 @@ Dashboard is fully responsive and works on:
 ## Integration
 
 ### SCADA Integration
+
 Display dashboard on HMI screens:
+
 ```html
 <iframe src="http://localhost:3000" width="100%" height="100%"></iframe>
 ```
 
 ### Kiosk Mode
+
 Run dashboard in fullscreen for control room displays:
+
 ```bash
 # Chrome kiosk mode
 google-chrome --kiosk --app=http://localhost:3000
@@ -142,16 +160,19 @@ google-chrome --kiosk --app=http://localhost:3000
 ## Monitoring Capabilities
 
 1. **Real-Time Prediction Tracking**
+
    - See predictions as they happen
    - Verify model is processing data
    - Check inference performance
 
 2. **Trend Analysis**
+
    - Visual charts show parameter trends
    - Identify patterns in water quality
    - Spot anomalies quickly
 
 3. **Performance Monitoring**
+
    - Track model inference speed
    - Ensure sub-second performance
    - Compare with baseline metrics

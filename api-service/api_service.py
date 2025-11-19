@@ -230,7 +230,7 @@ if __name__ == '__main__':
             time.sleep(2)
     
     logger.info("="*70)
-    logger.info(f"🚀 API Server starting on http://0.0.0.0:5000")
+    logger.info(f"🚀 API Server starting on http://0.0.0.0:8000")
     logger.info("="*70)
     logger.info("Endpoints:")
     logger.info("  GET  /health")
@@ -240,4 +240,4 @@ if __name__ == '__main__':
     logger.info("  POST /api/v1/predictions/batch")
     logger.info("="*70)
     
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=8000, debug=False)

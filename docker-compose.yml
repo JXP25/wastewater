@@ -7,11 +7,11 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "2181:2181"
+      - '2181:2181'
     networks:
       - wastewater-network
     healthcheck:
-      test: ["CMD", "nc", "-z", "localhost", "2181"]
+      test: ['CMD', 'nc', '-z', 'localhost', '2181']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -24,8 +24,8 @@ services:
       zookeeper:
         condition: service_healthy
     ports:
-      - "9092:9092"
-      - "9094:9094"
+      - '9092:9092'
+      - '9094:9094'
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -39,7 +39,14 @@ services:
     networks:
       - wastewater-network
     healthcheck:
-      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      test:
+        [
+          'CMD',
+          'kafka-topics',
+          '--bootstrap-server',
+          'localhost:9092',
+          '--list',
+        ]
       interval: 10s
       timeout: 10s
       retries: 5
@@ -52,7 +59,7 @@ services:
       kafka:
         condition: service_healthy
     ports:
-      - "8080:8080"
+      - '8080:8080'
     environment:
       KAFKA_CLUSTERS_0_NAME: wastewater-cluster
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
@@ -65,7 +72,7 @@ services:
     image: postgres:16-alpine
     container_name: wastewater-postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       POSTGRES_DB: wastewater
       POSTGRES_USER: postgres
@@ -73,7 +80,7 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -144,7 +151,7 @@ services:
       postgres:
         condition: service_healthy
     ports:
-      - "5000:5000"
+      - '8000:8000'
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
@@ -161,12 +168,12 @@ services:
       context: ./dashboard-service
       dockerfile: Dockerfile
       args:
-        - REACT_APP_API_URL=http://localhost:5000
+        - REACT_APP_API_URL=http://localhost:8000
     container_name: wastewater-dashboard
     depends_on:
       - api-service
     ports:
-      - "3000:3000"
+      - '3000:3000'
     networks:
       - wastewater-network
     restart: unless-stopped

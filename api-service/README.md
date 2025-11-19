@@ -9,12 +9,15 @@ Provides a RESTful interface for wastewater treatment plant control systems to a
 ## Endpoints
 
 ### Health Check
+
 ```
 GET /health
 ```
+
 Returns service health status.
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -24,12 +27,15 @@ Returns service health status.
 ```
 
 ### Get Latest Prediction
+
 ```
 GET /api/v1/predictions/latest
 ```
+
 Returns the most recent prediction.
 
 **Response:**
+
 ```json
 {
   "timestamp": "2025-11-19T12:00:00",
@@ -46,16 +52,20 @@ Returns the most recent prediction.
 ```
 
 ### Get Prediction History
+
 ```
 GET /api/v1/predictions/history?limit=100&hours=24
 ```
+
 Returns historical predictions.
 
 **Query Parameters:**
+
 - `limit`: Maximum number of predictions (default: 100, max: 1000)
 - `hours`: Time range in hours (default: 24)
 
 **Response:**
+
 ```json
 {
   "count": 42,
@@ -72,22 +82,26 @@ Returns historical predictions.
 ```
 
 ### Get Statistics
+
 ```
 GET /api/v1/statistics?hours=24
 ```
+
 Returns aggregated statistics for a time range.
 
 **Query Parameters:**
+
 - `hours`: Time range in hours (default: 24)
 
 **Response:**
+
 ```json
 {
   "time_range_hours": 24,
   "total_predictions": 288,
   "averages": {
     "tss_mg_l": 8.45,
-    "cod_mg_l": 42.30,
+    "cod_mg_l": 42.3,
     "bod_mg_l": 2.25
   },
   "performance": {
@@ -99,14 +113,17 @@ Returns aggregated statistics for a time range.
 ```
 
 ### Create Batch Prediction (Placeholder)
+
 ```
 POST /api/v1/predictions/batch
 ```
+
 Endpoint for future batch prediction capabilities.
 
 ## Configuration
 
 Environment variables:
+
 - `DB_HOST`: PostgreSQL host (default: postgres)
 - `DB_PORT`: PostgreSQL port (default: 5432)
 - `DB_NAME`: Database name (default: wastewater)
@@ -116,7 +133,7 @@ Environment variables:
 ## Server Configuration
 
 - **Framework**: Flask + Gunicorn
-- **Port**: 5000
+- **Port**: 8000
 - **Workers**: 2
 - **Timeout**: 60 seconds
 - **CORS**: Enabled for all origins
@@ -124,38 +141,42 @@ Environment variables:
 ## Usage Examples
 
 ### cURL
+
 ```bash
 # Get latest prediction
-curl http://localhost:5000/api/v1/predictions/latest
+curl http://localhost:8000/api/v1/predictions/latest
 
 # Get last 50 predictions from past 12 hours
-curl "http://localhost:5000/api/v1/predictions/history?limit=50&hours=12"
+curl "http://localhost:8000/api/v1/predictions/history?limit=50&hours=12"
 
 # Get daily statistics
-curl "http://localhost:5000/api/v1/statistics?hours=24"
+curl "http://localhost:8000/api/v1/statistics?hours=24"
 ```
 
 ### Python
+
 ```python
 import requests
 
 # Get latest prediction
-response = requests.get('http://localhost:5000/api/v1/predictions/latest')
+response = requests.get('http://localhost:8000/api/v1/predictions/latest')
 data = response.json()
 print(f"TSS: {data['predictions']['tss_mg_l']} mg/L")
 ```
 
 ### JavaScript
+
 ```javascript
 // Get latest prediction
-fetch('http://localhost:5000/api/v1/predictions/latest')
-  .then(response => response.json())
-  .then(data => console.log('TSS:', data.predictions.tss_mg_l, 'mg/L'));
+fetch('http://localhost:8000/api/v1/predictions/latest')
+  .then((response) => response.json())
+  .then((data) => console.log('TSS:', data.predictions.tss_mg_l, 'mg/L'));
 ```
 
 ## Integration with Control Systems
 
 This API is designed to integrate with:
+
 - SCADA systems
 - PLC controllers
 - HMI interfaces
