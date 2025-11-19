@@ -1,0 +1,6 @@
+# Prediction Service Requirements
+numpy>=1.26.0
+tensorflow>=2.15.0
+kafka-python>=2.0.2
+psycopg2-binary>=2.9.9
+scikit-learn>=1.3.0

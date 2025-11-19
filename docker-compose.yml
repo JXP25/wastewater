@@ -1,0 +1,159 @@
+services:
+  # Zookeeper - Required for Kafka
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: wastewater-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - wastewater-network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "2181"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Kafka Broker
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: wastewater-kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - "9092:9092"
+      - "9094:9094"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    networks:
+      - wastewater-network
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  # Kafka UI - For monitoring and debugging
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: wastewater-kafka-ui
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: wastewater-cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    networks:
+      - wastewater-network
+
+  # PostgreSQL Database - Store predictions
+  postgres:
+    image: postgres:16-alpine
+    container_name: wastewater-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: wastewater
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - wastewater-network
+
+  # IoT Device Simulator
+  iot-simulator:
+    build: .
+    container_name: wastewater-iot-simulator
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      - PLANT_ID=WTP-001
+      - KAFKA_SERVER=kafka:29092
+      - KAFKA_TOPIC=wastewater-sensors
+      - INTERVAL=1
+      - DAILY_PATTERN=true
+    command: >
+      python iot_simulator.py
+      --plant-id WTP-001
+      --kafka-server kafka:29092
+      --kafka-topic wastewater-sensors
+      --daily-pattern
+      --interval 1
+    networks:
+      - wastewater-network
+    restart: unless-stopped
+
+  # ML Prediction Service - LSTM Model Inference
+  prediction-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.prediction
+    container_name: wastewater-prediction-service
+    depends_on:
+      kafka:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER: kafka:29092
+      KAFKA_TOPIC: wastewater-sensors
+      KAFKA_GROUP_ID: prediction-service
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: wastewater
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      MODEL_PATH: /app/lstm/model/best_model.keras
+      SCALER_PATH: /app/lstm/model/scalers.npz
+    networks:
+      - wastewater-network
+    restart: unless-stopped
+
+  # API Service - Low-latency REST API
+  api-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: wastewater-api-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: wastewater
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    networks:
+      - wastewater-network
+    restart: unless-stopped
+
+networks:
+  wastewater-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
